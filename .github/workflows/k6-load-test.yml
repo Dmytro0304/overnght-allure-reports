@@ -1,0 +1,52 @@
+# Optional: short smoke against staging (manual only). Does not run on every push.
+# Optional secret: STG_EVENT_ID (recommended).
+name: k6 load smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'Script relative to load-tests/ (e.g. main.js or scenarios/spike-test.js)'
+        required: true
+        default: 'main.js'
+      peak_vus:
+        description: 'TARGET_PEAK_VUS'
+        required: true
+        default: '30'
+      sustain:
+        description: 'SUSTAIN (e.g. 45s)'
+        required: true
+        default: '45s'
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run k6
+        working-directory: load-tests
+        env:
+          BASE_URL: https://stg.overnght.com
+          API_BASE_URL: https://api.stg.overnght.com
+          TARGET_PEAK_VUS: ${{ github.event.inputs.peak_vus }}
+          SUSTAIN: ${{ github.event.inputs.sustain }}
+          SMOKE: '1'
+          EVENT_ID: ${{ secrets.STG_EVENT_ID }}
+          SUMMARY_PATH: k6-summary.json
+        run: k6 run "${{ github.event.inputs.scenario }}"
+
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary
+          path: load-tests/k6-summary.json
