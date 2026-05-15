@@ -2,6 +2,8 @@
 
 Playwright **API + UI** end-to-end tests for [Overnght](https://overnght.com). Default target is **staging**.
 
+Load testing (**k6**) is maintained separately under **`../load-tests/`** — it is not part of this npm package.
+
 ## Requirements
 
 - **Node.js** 20+ (CI uses 22)
