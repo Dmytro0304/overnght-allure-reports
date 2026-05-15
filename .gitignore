@@ -2,3 +2,8 @@
 node_modules/
 .DS_Store
 .cursor/
+
+# Playwright trace exports (ZIP unpacked under docs/<session-hash>/ — debug-only, huge binary-ish payloads)
+docs/*/resources/
+docs/*/0-trace.*
+docs/*/test.trace
