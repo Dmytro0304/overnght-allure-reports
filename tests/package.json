@@ -23,6 +23,7 @@
     "report:pack": "npm run report:allure && npm run report:summary",
     "report:allure:publish": "node config/scripts/publish-allure-reports-repo.cjs",
     "report:slack": "node config/scripts/slack-notify.cjs",
+    "report:slack:summary": "node config/scripts/slack-summary-notify.cjs",
     "report:notify": "node config/scripts/telegram-notify.cjs",
     "staging:run": "PW_ENV=staging node config/scripts/run-playwright.cjs",
     "staging:full": "npm run staging:run && npm run report:pack && npm run report:notify",
@@ -35,6 +36,7 @@
     "@types/node": "^22.14.0",
     "allure-commandline": "^2.32.0",
     "allure-playwright": "^3.2.0",
+    "axios": "^1.16.1",
     "dotenv": "^17.4.2",
     "stripe": "^22.0.1",
     "typescript": "^5.8.0"
