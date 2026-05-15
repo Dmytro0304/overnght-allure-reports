@@ -1,0 +1,59 @@
+name: E2E (staging)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-staging-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    env:
+      SKIP_ALLURE_GENERATE: '1'
+      PW_ENV: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright (staging)
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          REGULAR_TOKEN: ${{ secrets.REGULAR_TOKEN }}
+          E2E_USER_EMAIL: ${{ secrets.E2E_USER_EMAIL }}
+          E2E_USER_PASSWORD: ${{ secrets.E2E_USER_PASSWORD }}
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          PREMIUM_EVENT_ID: ${{ secrets.PREMIUM_EVENT_ID }}
+          GEO_BLOCKED_EVENT_ID: ${{ secrets.GEO_BLOCKED_EVENT_ID }}
+          LIVE_EVENT_ID: ${{ secrets.LIVE_EVENT_ID }}
+          VOD_EVENT_ID: ${{ secrets.VOD_EVENT_ID }}
+          FREE_EVENT_ID: ${{ secrets.FREE_EVENT_ID }}
+          HIGHLIGHTS_EVENT_ID: ${{ secrets.HIGHLIGHTS_EVENT_ID }}
+          HIGHLIGHTS_SEARCH_TERM: ${{ secrets.HIGHLIGHTS_SEARCH_TERM }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: npm run staging:run
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

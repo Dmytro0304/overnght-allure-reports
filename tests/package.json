@@ -1,0 +1,42 @@
+{
+  "name": "overnght-qa-automation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:browsers": "node config/scripts/install-browsers.cjs",
+    "test": "node config/scripts/run-playwright.cjs",
+    "test:staging": "PW_ENV=staging node config/scripts/run-playwright.cjs",
+    "test:dev": "PW_ENV=dev node config/scripts/run-playwright.cjs",
+    "test:headed": "node config/scripts/run-playwright.cjs --headed",
+    "test:ui": "playwright test -c config/playwright.config.ts --project=ui",
+    "test:auth:local": "BASE_URL=http://localhost:3000 API_BASE_URL=https://api.stg.overnght.com E2E_START_SERVERS=1 E2E_SKIP_API_SERVER=1 node config/scripts/run-playwright.cjs --project=ui auth/sign-in.spec.ts auth/sign-up.spec.ts",
+    "test:local": "BASE_URL=http://localhost:3000 API_BASE_URL=https://api.stg.overnght.com E2E_START_SERVERS=1 E2E_SKIP_API_SERVER=1 node config/scripts/run-playwright.cjs --project=ui --workers=2 auth/sign-in.spec.ts auth/sign-up.spec.ts ui/contact.spec.ts ui/account.spec.ts ui/legalese.spec.ts ui/faq.spec.ts",
+    "test:ui:debug": "node config/scripts/run-playwright.cjs --ui",
+    "test:api": "playwright test -c config/playwright.config.ts --project=api",
+    "test:e2e": "npm run test:ui",
+    "report:html": "playwright show-report playwright-report",
+    "report:summary": "node config/scripts/generate-summary-html.cjs",
+    "report:allure": "allure generate ./allure-results -o ./allure-report --clean",
+    "report:allure:http": "node config/scripts/serve-allure-report.cjs",
+    "report:allure:view": "npm run report:allure && npm run report:allure:http",
+    "report:allure:open": "npm run report:allure && allure open ./allure-report",
+    "report:pack": "npm run report:allure && npm run report:summary",
+    "report:allure:publish": "node config/scripts/publish-allure-reports-repo.cjs",
+    "report:slack": "node config/scripts/slack-notify.cjs",
+    "report:notify": "node config/scripts/telegram-notify.cjs",
+    "staging:run": "PW_ENV=staging node config/scripts/run-playwright.cjs",
+    "staging:full": "npm run staging:run && npm run report:pack && npm run report:notify",
+    "clean:artifacts": "node config/scripts/clean-test-artifacts.cjs",
+    "report:weekly:new": "node config/scripts/weekly-summary.cjs init",
+    "report:weekly:draft": "node config/scripts/weekly-summary.cjs draft"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.14.0",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.2.0",
+    "dotenv": "^17.4.2",
+    "stripe": "^22.0.1",
+    "typescript": "^5.8.0"
+  }
+}

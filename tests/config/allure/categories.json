@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Auth / Sign-In",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-AUTH.*|.*Sign.?In.*|.*[Ll]ogin.*"
+  },
+  {
+    "name": "Sign-Up / Registration",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-REGISTR.*|.*[Rr]egistration.*|.*[Oo][Tt][Pp].*"
+  },
+  {
+    "name": "Account / Profile",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-ACCOUNT.*|.*[Pp]rofile.*|.*[Pp]assword.*|.*[Tt]imezone.*"
+  },
+  {
+    "name": "Contact Support",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-CONTACT.*|.*[Cc]ontact.*"
+  },
+  {
+    "name": "Home Screen",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-HOME.*"
+  },
+  {
+    "name": "VOD / Search",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-VOD.*|.*[Ss]earch.*|.*[Ff]ilter.*"
+  },
+  {
+    "name": "Video Player",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-PLAYER.*|.*[Pp]layer.*|.*[Ss]tream.*"
+  },
+  {
+    "name": "Subscriptions / Checkout",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-SUBSCRIPTION.*|.*[Ss]ubscription.*|.*[Pp]ayment.*|.*[Ss]tripe.*"
+  },
+  {
+    "name": "Legalese / FAQ",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-LEGAL.*|.*TC-FAQ.*|.*[Ll]egal.*|.*FAQ.*"
+  },
+  {
+    "name": "Test Event Isolation",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-PLAT.*|.*TC-TEV.*|.*[Tt]est [Ee]vent.*"
+  },
+  {
+    "name": "Event Highlights",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*TC-EVENT-HL.*|.*[Hh]ighlight.*|.*[Mm]oment.*"
+  },
+  {
+    "name": "Renewal (Stripe test clock)",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*[Rr]enewal.*|.*[Ii]nvoice.*"
+  },
+  {
+    "name": "Flaky (passed on retry)",
+    "matchedStatuses": ["flaky"]
+  },
+  {
+    "name": "Skipped (missing env / staging-only)",
+    "matchedStatuses": ["skipped"]
+  }
+]
