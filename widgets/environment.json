@@ -1,0 +1,1 @@
+[{"values":["staging"],"name":"PW_ENV"},{"values":["https://stg.overnght.com"],"name":"BASE_URL"},{"values":["https://api.stg.overnght.com"],"name":"API_BASE_URL"},{"values":["https://api.stg.overnght.com/health"],"name":"API_HEALTH"}]
