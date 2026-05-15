@@ -1,0 +1,18 @@
+node_modules/
+
+playwright-report/
+test-results/
+blob-report/
+allure-results/
+allure-report/
+.pw-browsers/
+logs/
+
+# Machine-generated run data & summary (keep reports/weekly/TEMPLATE.md)
+reports/last-run.json
+reports/summary.html
+reports/weekly/auto-draft-*.md
+
+# Local secrets (use .env.example as a template)
+.env
+.env.local
