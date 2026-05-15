@@ -1,0 +1,62 @@
+name: Publish Allure Report
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install deps
+        run: |
+          npm ci
+          npm ci --prefix tests
+
+      - name: Install Chromium
+        run: cd tests && npx playwright install --with-deps chromium
+
+      - name: Run tests
+        run: npm test
+        continue-on-error: true
+        env:
+          PW_ENV: staging
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          REGULAR_TOKEN: ${{ secrets.REGULAR_TOKEN }}
+          E2E_USER_EMAIL: ${{ secrets.E2E_USER_EMAIL }}
+          E2E_USER_PASSWORD: ${{ secrets.E2E_USER_PASSWORD }}
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          PREMIUM_EVENT_ID: ${{ secrets.PREMIUM_EVENT_ID }}
+          GEO_BLOCKED_EVENT_ID: ${{ secrets.GEO_BLOCKED_EVENT_ID }}
+          LIVE_EVENT_ID: ${{ secrets.LIVE_EVENT_ID }}
+          VOD_EVENT_ID: ${{ secrets.VOD_EVENT_ID }}
+          FREE_EVENT_ID: ${{ secrets.FREE_EVENT_ID }}
+          HIGHLIGHTS_EVENT_ID: ${{ secrets.HIGHLIGHTS_EVENT_ID }}
+          HIGHLIGHTS_SEARCH_TERM: ${{ secrets.HIGHLIGHTS_SEARCH_TERM }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+
+      - name: Generate Allure Report
+        run: |
+          cd tests && npx allure generate ./allure-results --clean -o ../allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
