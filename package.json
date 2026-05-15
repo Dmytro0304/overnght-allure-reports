@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "test": "npm --prefix tests test",
+    "test:staging": "npm --prefix tests run test:staging",
+    "test:dev": "npm --prefix tests run test:dev",
+    "test:playwright": "bash scripts/playwright-test.sh",
+    "test:api": "npm --prefix tests run test:api",
+    "test:ui": "npm --prefix tests run test:ui",
+    "test:auth:local": "npm --prefix tests run test:auth:local",
+    "test:e2e": "npm --prefix tests run test:ui",
+    "test:test-events": "npm --prefix tests test",
+    "test:test-events:api": "npm --prefix tests run test:api",
+    "test:test-events:e2e": "npm --prefix tests run test:ui",
+    "report:allure": "npm --prefix tests run report:allure",
+    "report:allure:open": "npm --prefix tests run report:allure:open",
+    "report:summary": "npm --prefix tests run report:summary",
+    "report:pack": "npm --prefix tests run report:pack",
+    "report:weekly:new": "npm --prefix tests run report:weekly:new",
+    "report:weekly:draft": "npm --prefix tests run report:weekly:draft"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

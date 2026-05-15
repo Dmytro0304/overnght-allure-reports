@@ -7,6 +7,9 @@ node_modules/
 web/
 server/
 
+# Machine-local ops (hardcoded paths, event/HLS merges); do not commit or push
+local-tools/
+
 # Playwright trace exports (ZIP unpacked under docs/<session-hash>/ — debug-only, huge binary-ish payloads)
 docs/*/resources/
 docs/*/0-trace.*

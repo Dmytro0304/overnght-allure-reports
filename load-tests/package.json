@@ -1,0 +1,15 @@
+{
+  "name": "@overnght/load-tests",
+  "private": true,
+  "description": "k6 load tests for Overnght (run k6 CLI; see README)",
+  "scripts": {
+    "k6": "k6 run main.js",
+    "k6:smoke": "k6 run -e TARGET_PEAK_VUS=20 -e SUSTAIN=30s -e SMOKE=1 main.js",
+    "k6:anonymous": "k6 run scenarios/anonymous-viewer.js",
+    "k6:logged-in": "k6 run scenarios/logged-in-viewer.js",
+    "k6:spike": "k6 run scenarios/spike-test.js",
+    "k6:four-concurrent": "k6 run scenarios/concurrent-four-events.js",
+    "k6:four-staggered": "k6 run scenarios/staggered-four-waves.js",
+    "k6:auth-weekend": "k6 run scenarios/auth-weekend-pressure.js"
+  }
+}
